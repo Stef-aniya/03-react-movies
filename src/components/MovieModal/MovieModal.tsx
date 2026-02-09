@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import styles from "./MovieModal.module.css";
 import type { Movie } from "../../types/movie";
+import { createPortal } from "react-dom";
 
 interface MovieModalProps {
   movie: Movie;
   onClose: () => void;
 }
+const modalRoot = document.getElementById("modal-root") as HTMLElement;
 
 export default function MovieModal({ movie, onClose }: MovieModalProps) {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -27,7 +29,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     };
   }, [onClose]);
 
-  return (
+  return createPortal(
     <div
       className={styles.backdrop}
       role="dialog"
@@ -58,6 +60,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
           </p>
         </div>
       </div>
-    </div>
+    </div>,
+    modalRoot,
   );
 }

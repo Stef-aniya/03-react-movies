@@ -2,12 +2,15 @@ import type { Movie } from "../types/movie";
 import axios from "axios";
 
 const API_URL =
-  "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg";
+  "https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1";
 
 interface FetchMoviesResponse {
   results: Movie[];
 }
 export async function fetchMovies(query: string): Promise<Movie[]> {
+  if (!query.trim()) {
+    return [];
+  }
   const response = await axios.get<FetchMoviesResponse>(API_URL, {
     params: {
       query: query,
